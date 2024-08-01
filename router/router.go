@@ -3,23 +3,26 @@ package router
 import (
 	"net/http"
 
-	"github.com/gorilla/mux"
 	ctrls "github.com/xthet/go-morvo/controllers"
 	"github.com/xthet/go-morvo/utils"
 )
 
 func Routes() http.Handler {
-	grand_router := mux.NewRouter()
-	router := grand_router.PathPrefix("/api/v1").Subrouter()
+	router := http.NewServeMux()
 
-	router.HandleFunc("/", greet).Methods("GET")
+
+	router.HandleFunc("GET /", greet)
 
 
 	// TO-DO ROUTES
-	router.HandleFunc("/todos", ctrls.GetTodos).Methods("GET")
-	router.HandleFunc("/todos", ctrls.CreateTodo).Methods("POST")
+	router.HandleFunc("GET /todos", ctrls.GetTodos)
+	router.HandleFunc("POST /todos", ctrls.CreateTodo)
+	router.HandleFunc("DELETE /todos", ctrls.DeleteTodo)
 
-	return router
+	sub_router := http.NewServeMux()
+	sub_router.Handle("/api/v1/", http.StripPrefix("/api/v1", router))	
+
+	return sub_router
 }
 
 func greet(w http.ResponseWriter, r *http.Request){

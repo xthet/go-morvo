@@ -12,3 +12,7 @@ type Todo struct {
 type CreateTodoPayload struct {
 	Body string `json:"body"`
 }
+
+type UpdateTodoPayload struct {
+	ID primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+}
