@@ -29,6 +29,14 @@ func GetTodos() ([]types.Todo, error){
 	return todos, nil
 }
 
+func GetTodo(id primitive.ObjectID) (*types.Todo, error){
+	filter := bson.M{"_id":id}
+	todo := new(types.Todo)
+	err := models.Todos.FindOne(context.Background(), filter).Decode(&todo)
+	if err != nil {return nil, err}
+	return todo, nil
+}
+
 func CreateTodo(payload types.CreateTodoPayload) (*types.Todo, error) {
 	todo := new(types.Todo)
 	// {id:0,completed:false,body:""}

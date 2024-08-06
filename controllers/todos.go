@@ -21,6 +21,27 @@ func GetTodos(w http.ResponseWriter, r *http.Request) {
 	utils.WriteJSON(w, http.StatusOK, map[string][]types.Todo{"todos": all})
 }
 
+func GetTodo(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+
+	object_id, err := primitive.ObjectIDFromHex(id)
+
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid id"))
+		return
+	}
+
+	todo, err := svcs.GetTodo(object_id)
+
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	utils.WriteJSON(w, http.StatusOK, map[string]types.Todo{"todo": *todo})
+}
+
+
 func CreateTodo(w http.ResponseWriter, r *http.Request) {
 	var payload types.CreateTodoPayload
 	if err := utils.ParseJSON(r, &payload); err != nil {
