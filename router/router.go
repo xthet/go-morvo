@@ -2,15 +2,17 @@ package router
 
 import (
 	"net/http"
+
 	"github.com/xthet/go-morvo/utils"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func Routes() http.Handler {
+func Routes(client *mongo.Client) http.Handler {
 	router := http.NewServeMux()
 
 	router.HandleFunc("GET /", greet)
 
-	TodoRoutes(router)
+	TodoRoutes(router, client)
 
 	sub_router := http.NewServeMux()
 	sub_router.Handle("/api/v1/", http.StripPrefix("/api/v1", router))	

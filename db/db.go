@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/xthet/go-morvo/models"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -18,7 +17,6 @@ func ConnectMongoDB(uri string) (*mongo.Client, error) {
 	err = test_DB(client)
 	if err != nil {log.Fatal(); return nil, err}
 	fmt.Println("CONNECTED TO DATABASE SUCCESSFULLY!!")
-	models.Collections(client)
 
 	return client, nil
 }

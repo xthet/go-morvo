@@ -35,7 +35,7 @@ func main() {
 	}
 
 	log.Println("api listening on port", port)
-	err = http.ListenAndServe(fmt.Sprintf(":%s", port), router.Routes())
+	err = http.ListenAndServe(fmt.Sprintf(":%s", port), router.Routes(client))
 	
 	if err != nil {
 		log.Fatal(err)
