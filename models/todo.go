@@ -53,3 +53,43 @@ func (c TodoCollection) GetTodos()([]types.Todo, error){
 
 	return todos, nil
 }
+
+func (c TodoCollection) EditTodo(payload types.CreateTodoPayload, id primitive.ObjectID) (*mongo.UpdateResult, error) {
+	filter := bson.M{"_id":id}
+	update := bson.M{"$set": bson.M{"body": payload.Body}}
+
+	edt_res, err := c.collection.UpdateOne(context.Background(), filter, update)
+	if err != nil {return nil, err}
+
+	return edt_res, nil
+}
+
+func (c TodoCollection) ApproveTodo(id primitive.ObjectID) (error) {
+	filter := bson.M{"_id":id}
+	update := bson.M{"$set": bson.M{"approved": true}}
+
+	_, err := c.collection.UpdateOne(context.Background(), filter, update)
+	if err != nil {return err}
+
+	return nil
+}
+
+func (c TodoCollection) CompleteTodo(id primitive.ObjectID) (error) {
+	filter := bson.M{"_id":id}
+	update := bson.M{"$set": bson.M{"completed": true}}
+
+	_, err :=c.collection.UpdateOne(context.Background(), filter, update)
+	if err != nil {return err}
+
+	return nil
+}
+
+func (c TodoCollection) DeleteTodo(id primitive.ObjectID) error {
+	filter := bson.M{"_id":id}
+	_, err := c.collection.DeleteOne(context.Background(), filter)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

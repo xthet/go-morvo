@@ -18,8 +18,8 @@ func TodoRoutes(router *http.ServeMux, client *mongo.Client){
 	// TO-DO ROUTES
 	router.HandleFunc("GET /todos", todo_controller.GetTodos)
 	router.HandleFunc("GET /todos/{id}", todo_controller.GetTodoByID)
-	// router.HandleFunc("GET /todos/complete", ctrls.CompleteTodo)
+	router.HandleFunc("GET /todos/complete", todo_controller.CompleteTodo)
 	router.HandleFunc("POST /todos", todo_controller.CreateTodo)
-	// router.HandleFunc("PATCH /todos", ctrls.EditTodo)
-	// router.HandleFunc("DELETE /todos", ctrls.DeleteTodo)
+	router.HandleFunc("PATCH /todos", todo_controller.EditTodo)
+	router.HandleFunc("DELETE /todos", todo_controller.DeleteTodo)
 }

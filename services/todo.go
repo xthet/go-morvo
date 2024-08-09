@@ -1,10 +1,10 @@
 package services
 
 import (
-
 	"github.com/xthet/go-morvo/models"
 	"github.com/xthet/go-morvo/types"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type TodoService struct {
@@ -37,43 +37,19 @@ func (s TodoService) CreateTodo(payload types.CreateTodoPayload) (*types.Todo, e
 	return todo, nil
 }
 
-// func EditTodo(payload types.CreateTodoPayload, id primitive.ObjectID) (*mongo.UpdateResult, error) {
-// 	filter := bson.M{"_id":id}
-// 	update := bson.M{"$set": bson.M{"body": payload.Body}}
+func (s TodoService) EditTodo(payload types.CreateTodoPayload, id primitive.ObjectID) (*mongo.UpdateResult, error) {
+	return s.todo_collection.EditTodo(payload, id)
+}
 
-// 	edt_res, err := models.Todos.UpdateOne(context.Background(), filter, update)
-// 	if err != nil {return nil, err}
+func (s TodoService) ApproveTodo(id primitive.ObjectID) (error) {
+	return s.todo_collection.ApproveTodo(id)
+}
 
-// 	return edt_res, nil
-// }
-
-// func ApproveTodo(id primitive.ObjectID) (error) {
-// 	filter := bson.M{"_id":id}
-// 	update := bson.M{"$set": bson.M{"approved": true}}
-
-// 	_, err := models.Todos.UpdateOne(context.Background(), filter, update)
-// 	if err != nil {return err}
-
-// 	return nil
-// }
-
-// func CompleteTodo(id primitive.ObjectID) (error) {
-// 	filter := bson.M{"_id":id}
-// 	update := bson.M{"$set": bson.M{"completed": true}}
-
-// 	_, err := models.Todos.UpdateOne(context.Background(), filter, update)
-// 	if err != nil {return err}
-
-// 	return nil
-// }
+func (s TodoService) CompleteTodo(id primitive.ObjectID) (error) {
+	return s.todo_collection.CompleteTodo(id)
+}
 
 
-// func DeleteTodo(id primitive.ObjectID) error {
-// 	filter := bson.M{"_id":id}
-// 	_, err := models.Todos.DeleteOne(context.Background(), filter)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	return nil
-// }
+func (s TodoService) DeleteTodo(id primitive.ObjectID) error {
+	return s.todo_collection.DeleteTodo(id)
+}
