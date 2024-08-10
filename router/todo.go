@@ -1,7 +1,6 @@
 package router
 
 import (
-	"fmt"
 	"net/http"
 
 	ctrls "github.com/xthet/go-morvo/controllers"
@@ -13,7 +12,6 @@ import (
 
 func TodoRoutes(router *http.ServeMux, client *mongo.Client){
 	todo_controller := ctrls.Todo(services.Todo(models.Todo(client.	Database("morvo").Collection("todos"))))
-	fmt.Println("created again")
 
 	// TO-DO ROUTES
 	router.HandleFunc("GET /todos", todo_controller.GetTodos)
